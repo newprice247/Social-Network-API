@@ -5,25 +5,25 @@ const userSchema = new Schema(
         username: {
             type: String,
             unique: true,
-            required: 'Username is required',
+            required: [true, 'Username is required'],
             trim: true
         },
         email: {
             type: String,
             unique: true,
-            required: 'Email is required',
+            required: [true, 'Email is required'],
             match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
         },
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Thought'
+                ref: 'thought'
             }
         ],
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User'
+                ref: 'user'
             }
         ]
         },
@@ -35,7 +35,9 @@ const userSchema = new Schema(
         }
 );
 
-userSchema.virtual('friendCount').get(function() {
+userSchema
+    .virtual('friendCount')
+    .get(function() {
     return this.friends.length;
 });
 
