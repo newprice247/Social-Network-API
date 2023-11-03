@@ -4,7 +4,7 @@ const User = require('../models/User.js');
 module.exports = {
     async getUsers(req, res) {
         try {
-            const users = await User.find();
+            const users = await User.find()
             res.json(users);
         } catch (err) {
             res.json(err)
@@ -21,6 +21,7 @@ module.exports = {
     async getUserById(req, res) {
         try {
             const user = await User.findOne({_id: req.params.userId})
+                .populate('thoughts')
                 .populate('friends')
 
             if (user) {
