@@ -27,5 +27,49 @@ module.exports = {
         } catch (err) {
             res.json(err)
         }
+    },
+    async getThoughtById(req, res) {
+        try {
+            const thought = await Thought.findOne({ _id: req.params.thoughtId })
+            // .populate('reactions')
+            if (thought) {
+                res.json(thought)
+            } else {
+                return res.json({ message: 'Sorry no thought found with that ID' })
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    },
+    async updateThought(req, res) {
+        try {
+            const thought = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $set: req.body },
+                { runValidators: true, new: true }
+            )
+            // .populate('reactions')
+
+            if (thought) {
+                res.json(thought)
+            } else {
+                return res.json(req.params)
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    },
+    async deleteThought(req, res) {
+        try {
+            const thought = await Thought.findByIdAndDelete({ _id: req.params.thoughtId })
+
+            if (thought) {
+                res.json(thought)
+            } else {
+                return res.json({ message: 'Sorry no thought was found with that ID' })
+            }
+        } catch (err) {
+            res.json(err)
+        }
     }
 }

@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const reactionSchema = require ('./Reaction')
+const reactionSchema = require('./Reaction')
 
 const thoughtSchema = new Schema(
     {
@@ -32,8 +32,14 @@ const thoughtSchema = new Schema(
 thoughtSchema
     .virtual('reactionCount')
     .get(function () {
-    return this.reactions.length;
-});
+        return this.reactions.length;
+    });
+
+// thoughtSchema
+//     .pre('delete', async function (next) {
+//         await this.model('reactions').deleteMany({ _id: { $in: this.reactions } });
+//         next();
+//     });
 
 const Thought = model('thought', thoughtSchema);
 
