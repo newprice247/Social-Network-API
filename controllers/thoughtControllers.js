@@ -71,5 +71,37 @@ module.exports = {
         } catch (err) {
             res.json(err)
         }
+    },
+    async getReactionsByThought(req, res) {
+        try {
+            const thought = await Thought.findOne({ _id: req.params.thoughtId })
+                .populate('reactions')
+
+            if (thought) {
+                res.json(thought.reactions)
+            } else {
+                return res.json({ message: 'Sorry no thought was found with that ID' })
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    },
+    async postReaction(req, res) {
+        try {
+            const newReaction = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $push: { reactions: req.body } },
+                { runValidators: true, new: true }
+            )
+            .populate('reactions')
+
+            if (newReaction) {
+                res.json(newReaction)
+            } else {
+                return res.json({ message: 'Sorry no thought was found with that ID' })
+            }
+        } catch (err) {
+            res.json(err)
+        }
     }
 }
