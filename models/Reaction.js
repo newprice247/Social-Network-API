@@ -1,5 +1,6 @@
+// Imports the Schema and Types configuration objects from Mongoose
 const { Schema, Types } = require('mongoose');
-
+// Creates a ReactionSchema using the Schema constructor
 const reactionSchema = new Schema (
     {
         reactionId: {
@@ -22,5 +23,5 @@ const reactionSchema = new Schema (
         }
     }
 );
-
+// Exports the ReactionSchema
 module.exports = reactionSchema;

@@ -1,7 +1,10 @@
+//Imports the Thought model and the User model from the models folder
 const Thought = require('../models/Thought.js');
 const User = require('../models/User.js');
 
+//Exports the following functions to be used in the thoughtRoutes.js file
 module.exports = {
+    //Gets all thoughts
     async getThoughts(req, res) {
         try {
             const thoughts = await Thought.find()
@@ -10,6 +13,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Posts a new thought
     async postThought(req, res) {
         try {
             const newThought = await Thought.create(
@@ -28,6 +32,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Gets a thought by its ID
     async getThoughtById(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId })
@@ -41,6 +46,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Updates a thought
     async updateThought(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
@@ -59,6 +65,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Deletes a thought
     async deleteThought(req, res) {
         try {
             const thought = await Thought.findByIdAndDelete({ _id: req.params.thoughtId })
@@ -72,6 +79,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Gets all reactions for a thought
     async getReactionsByThought(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId })
@@ -86,6 +94,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Posts a new reaction to a thought
     async postReaction(req, res) {
         try {
             const newReaction = await Thought.findOneAndUpdate(
@@ -104,6 +113,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Deletes a reaction from a thought
     async deleteReaction(req, res) {
         try {
             const reaction = await Thought.findOneAndUpdate(

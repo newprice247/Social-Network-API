@@ -1,6 +1,9 @@
+// Imports the Schema and model configuration objects from Mongoose
 const { Schema, model } = require('mongoose');
-const reactionSchema = require('./Reaction')
+// Imports the reactionSchema from Reaction.js to be used as a subdocument
+const reactionSchema = require('./Reaction');
 
+// Creates a ThoughtSchema using the Schema constructor
 const thoughtSchema = new Schema(
     {
         thoughtText: {
@@ -29,18 +32,22 @@ const thoughtSchema = new Schema(
     }
 )
 
+// Creates a virtual called reactionCount that retrieves the length of the thought's reactions array field on query
 thoughtSchema
     .virtual('reactionCount')
     .get(function () {
         return this.reactions.length;
     });
 
+// Middleware that deletes the associated reactions when a thought is deleted
 thoughtSchema
     .pre('delete', async function (next) {
         await this.model('reactions').deleteMany({ _id: { $in: this.reactions } });
         next();
     });
 
+// Creates the Thought model using the thoughtSchema
 const Thought = model('thought', thoughtSchema);
 
+// Exports the Thought model
 module.exports = Thought;

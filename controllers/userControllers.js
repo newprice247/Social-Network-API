@@ -1,7 +1,9 @@
+// Imports the User model from the models folder
 const User = require('../models/User.js');
 
-
+//Exports the following functions to be used in the userRoutes.js file
 module.exports = {
+    //Gets all users
     async getUsers(req, res) {
         try {
             const users = await User.find()
@@ -10,6 +12,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Posts a new user
     async createUser(req, res) {
         try {
             const newUser = await User.create(req.body);
@@ -18,6 +21,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Gets a user by their ID
     async getUserById(req, res) {
         try {
             const user = await User.findOne({_id: req.params.userId})
@@ -33,6 +37,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Updates a user
     async updateUserById(req, res) {
         try {
             const user = await User.findOneAndUpdate(
@@ -50,6 +55,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Deletes a user
     async deleteUser(req, res) {
         try {
             const user = await User.findByIdAndDelete({_id: req.params.userId})
@@ -63,6 +69,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Assigns a friend to a user
     async addFriend(req, res) {
         try {
             const user = await User.findOneAndUpdate(
@@ -81,6 +88,7 @@ module.exports = {
             res.json(err)
         }
     },
+    //Deletes a friend from a user's friend list
     async deleteFriend(req, res) {
         try {
             const user = await User.findOneAndUpdate(
