@@ -35,11 +35,11 @@ thoughtSchema
         return this.reactions.length;
     });
 
-// thoughtSchema
-//     .pre('delete', async function (next) {
-//         await this.model('reactions').deleteMany({ _id: { $in: this.reactions } });
-//         next();
-//     });
+thoughtSchema
+    .pre('delete', async function (next) {
+        await this.model('reactions').deleteMany({ _id: { $in: this.reactions } });
+        next();
+    });
 
 const Thought = model('thought', thoughtSchema);
 
