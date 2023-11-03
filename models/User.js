@@ -26,20 +26,26 @@ const userSchema = new Schema(
                 ref: 'user'
             }
         ]
+    },
+    {
+        toJSON: {
+            virtuals: true,
         },
-        {
-            toJSON: {
-                virtuals: true,
-            },
-            id: false
-        }
+        id: false
+    }
 );
 
 userSchema
     .virtual('friendCount')
-    .get(function() {
-    return this.friends.length;
-});
+    .get(function () {
+        return this.friends.length;
+    });
+
+userSchema
+    .pre('delete', async function (next) {
+        await this.model('thought').deleteMany({ _id: { $in: this.thoughts } });
+        next();
+    })
 
 const User = model('user', userSchema)
 

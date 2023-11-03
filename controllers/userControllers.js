@@ -21,6 +21,7 @@ module.exports = {
     async getUserById(req, res) {
         try {
             const user = await User.findOne({_id: req.params.userId})
+                .populate('friends')
 
             if (user) {
                 res.json(user)
@@ -37,7 +38,7 @@ module.exports = {
                 { _id: req.params.userId },
                 { $set: req.body },
                 { runValidators: true, new: true}
-            );
+            )
 
             if (user) {
                 res.json(user)
@@ -58,6 +59,42 @@ module.exports = {
                 return res.json({ message: 'Sorry no user was found with that ID'})
             }
         } catch(err) {
+            res.json(err)
+        }
+    },
+    async addFriend(req, res) {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $addToSet: {friends: req.params.friendId}},
+                {runValidators: true, new: true}
+            )
+            .populate('friends')
+
+            if (user) {
+                res.json(user)
+            } else {
+                return res.json({ message: "Couldn't add friend, no user was found with that ID"})
+            } 
+        } catch (err) {
+            res.json(err)
+        }
+    },
+    async deleteFriend(req, res) {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $pull: {friends: req.params.friendId} },
+                { runValidators: true, new: true }
+            )
+            .populate('friends')
+
+            if (user) {
+                res.json(user)
+            } else {
+                return res.json({ message: "Couldn't add friend, no user was found with that ID"})
+            } 
+        } catch (err) {
             res.json(err)
         }
     }
