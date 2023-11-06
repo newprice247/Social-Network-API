@@ -28,16 +28,12 @@ const users = [
 
 const thoughts = [
     {
-        "thoughtText": "I love my dog",
-        "username": "sutton123"
-    },
-    {
-        "thoughtText": "I love my cat",
-        "username": "sarah123"
-    },
-    {
         "thoughtText": "I love my bird",
         "username": "fred456"
+    },
+    {
+        "thoughtText": "I love my dog",
+        "username": "sutton123"
     },
     {
         "thoughtText": "I love my fish",
@@ -46,6 +42,10 @@ const thoughts = [
     {
         "thoughtText": "I love my rabbit",
         "username": "nathan789"
+    },
+    {
+        "thoughtText": "I love my cat",
+        "username": "sarah123"
     }
 ]
 
@@ -72,12 +72,8 @@ connection.once('open', async () => {
     let currentUsers = await User.find({}).lean();
 
     // The following code will loop through the thoughts array and add the thought id to the user's thoughts array field
-    let thoughtIds = [];
     for (let i = 0; i < currentThoughts.length; i++) {
-        thoughtIds.push(currentThoughts[i]._id);
-    }
-    for (let i = 0; i < currentUsers.length; i++) {
-        await User.findByIdAndUpdate(currentUsers[i]._id, { $push: { thoughts: thoughtIds[i] } }, { runValidators: true, new: true });
+        await User.findOneAndUpdate( { username: currentThoughts[i].username}, { $push: { thoughts: currentThoughts[i]._id } }, { runValidators: true, new: true });
     }
 
     let finalUsers = await User.find({}).lean();
