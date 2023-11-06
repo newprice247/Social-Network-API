@@ -2,7 +2,7 @@ const connection = require('../config/connection');
 const Thought = require('../models/Thought.js');
 const User = require('../models/User.js');
 
-
+// User data to be used to populate the users collection
 const users = [
     {
         "username": "sutton123",
@@ -26,6 +26,7 @@ const users = [
     }
 ]
 
+// Thought data to be used to populate the thoughts collection
 const thoughts = [
     {
         "thoughtText": "I love my bird",
@@ -49,35 +50,34 @@ const thoughts = [
     }
 ]
 
+// Connects to the database, deletes the users and thoughts collections if they exist already, creates the users and thoughts collections, and loops through each thought and pushes the thought's _id to the appropriate user's thoughts array field
 connection.once('open', async () => {
     console.log('connected');
-    // Delete the collections if they exist
-    
 
+    // Deletes the users and thoughts collections if they exist already
     let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
     if (userCheck.length) {
-        console.table(userCheck.length);
         await connection.dropCollection('users');
-
     }
-
     let thoughtCheck = await connection.db.listCollections({ name: 'thoughts' }).toArray();
     if (thoughtCheck.length) {
         await connection.dropCollection('thoughts');
     }
 
+    // Creates the users and thoughts collections
     await Thought.collection.insertMany(thoughts);
     await User.collection.insertMany(users);
-    let currentThoughts = await Thought.find({}).lean();
-    let currentUsers = await User.find({}).lean();
 
-    // The following code will loop through the thoughts array and add the thought id to the user's thoughts array field
+    // Loops through each thought and pushes the thought's _id to the appropriate user's thoughts array field
+    let currentThoughts = await Thought.find({}).lean();
     for (let i = 0; i < currentThoughts.length; i++) {
         await User.findOneAndUpdate( { username: currentThoughts[i].username}, { $push: { thoughts: currentThoughts[i]._id } }, { runValidators: true, new: true });
     }
 
+    // Displays the final table for the user collection
     let finalUsers = await User.find({}).lean();
-
     console.table(finalUsers);
+    
+    // Exits the process
     process.exit(0);
 });

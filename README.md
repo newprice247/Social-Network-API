@@ -16,11 +16,7 @@
   ## Installation
 * Clone the repository to local storage
 * Navigate to the folder inside your terminal and run 'npm install' to install the necessary node modules
-* Make sure you have MongoDB installed on your machine, if you need help [here's a guide to get you started](https://coding-boot-camp.github.io/full-stack/mysql/mysql-installation-guide)
-
-* In your MySQL shell or workbench, source the schema.sql file that is located in the 'db' folder to get the e-commerse-back-end database and tables populated. The commands should look something like this: 
-
-        mysql> source ..\E-Commerce-Back-End\db\schema.sql
+* Make sure you have MongoDB installed on your machine, if you need help [here's a guide to get you started](https://www.mongodb.com/docs/manual/installation/)
 
 * Return to your node terminal and run 'npm run seed' to populate the database with the provided table data.
 
@@ -30,7 +26,7 @@
   
 
   ## Usage
-* Once the prerequisite files are installed, locate the 'E-Commerce-Back-End' folder inside your terminal, and run 'npm start'
+* Once the prerequisite files are installed, locate the 'Social-Network-API' folder inside your terminal, and run 'npm start'
 
 * Because the app is entirely back-end, you will need to use an API platform such as [Insomnia](https://docs.insomnia.rest/insomnia/get-started#:~:text=Insomnia%20is%20an%20open%20source,code%20generation%2C%20and%20environment%20variables.) or [Postman](https://www.postman.com/) to test the functionality of the app.
 
