@@ -23,7 +23,7 @@ module.exports = {
                 }
             );
             const user = await User.findOneAndUpdate(
-                { _id: req.body.userId },
+                { username: req.body.username },
                 { $push: { thoughts: newThought._id } },
                 { runValidators: true, new: true }
             );
