@@ -62,6 +62,7 @@ module.exports = {
             const user = await User.findOneAndDelete({_id: req.params.userId})
 
             if (user) {
+                // Deletes user's Thoughts from the thoughts table
                 await Thought.deleteMany({ username: user.username })
                 res.json(user)
             } else {
