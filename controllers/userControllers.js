@@ -1,5 +1,6 @@
-// Imports the User model from the models folder
+// Imports the User and Thought models
 const User = require('../models/User.js');
+const Thought = require('../models/Thought.js');
 
 //Exports the following functions to be used in the userRoutes.js file
 module.exports = {
@@ -58,9 +59,10 @@ module.exports = {
     //Deletes a user
     async deleteUser(req, res) {
         try {
-            const user = await User.findByIdAndDelete({_id: req.params.userId})
+            const user = await User.findOneAndDelete({_id: req.params.userId})
 
             if (user) {
+                await Thought.deleteMany({ username: user.username })
                 res.json(user)
             } else {
                 return res.json({ message: 'Sorry no user was found with that ID'})

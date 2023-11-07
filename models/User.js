@@ -1,5 +1,6 @@
 // Imports the Schema and model configuration objects from Mongoose
 const { Schema, model } = require('mongoose');
+const Thought = require('./Thought.js');
 
 // Creates a UserSchema using the Schema constructor
 const userSchema = new Schema(
@@ -32,6 +33,7 @@ const userSchema = new Schema(
     {
         toJSON: {
             virtuals: true,
+            getters: true
         },
         id: false
     }
@@ -44,12 +46,6 @@ userSchema
         return this.friends.length;
     });
 
-// Middleware that deletes the associated thoughts when a user is deleted
-userSchema
-    .pre('delete', async function (next) {
-        await this.model('thought').deleteMany({ _id: { $in: this.thoughts } });
-        next();
-    })
 
 // Creates the User model using the userSchema
 const User = model('user', userSchema)

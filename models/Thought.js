@@ -39,12 +39,6 @@ thoughtSchema
         return this.reactions.length;
     });
 
-// Middleware that deletes the associated reactions when a thought is deleted
-thoughtSchema
-    .pre('delete', async function (next) {
-        await this.model('reactions').deleteMany({ _id: { $in: this.reactions } });
-        next();
-    });
 
 // Creates the Thought model using the thoughtSchema
 const Thought = model('thought', thoughtSchema);
