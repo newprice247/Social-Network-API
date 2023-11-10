@@ -73,7 +73,7 @@
   ### Thought Routes
 
   * GET  will return all thoughts ( localhost:3001/api/thoughts ) or a single thought by its '_id'  ( localhost:3001/api/thoughts/:thoughtId )
-  * POST to ' localhost:3001/api/thoughts/:thoughtId ' to create a new thought and attach it to the user who created it by using this format:
+  * POST to ' localhost:3001/api/thoughts ' to create a new thought and attach it to the user who created it by using this format:
   
         {
           "thoughtText": "Here's a brand new thought!",
